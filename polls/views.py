@@ -46,3 +46,36 @@ def dubug_request(request):
 # 각 url로 접근하여 페이지가 나오도록 해보겠습니다.
 # 1. /polls/hello/ -> "안녕하세요" 라고 페이지에 표시하기
 # 2. /polls/good/ -> AI를 통해 작성된 다양한 페이지 표시하기
+
+# 2시 40분까지 ORM 체험해 보겠습니다~!
+
+# 메모리스트를 보여주는 뷰를 만들어 보겠습니다.
+from .models import Article, Memo
+def memo_list(self):
+    # 메모 전체 가져오기
+    all_memo=Memo.objects.all()
+    # content 구성하기
+    content=""
+    for memo in all_memo:
+        content += "제목 : "+memo.title+"<br>"
+        content += "내용 : "+memo.content+"<br>"
+        content += "----"*10
+        content += "<br>"
+    return HttpResponse(content)
+
+# content = "제목 : 타이틀
+# 내용 : 콘텐트
+# 제목 : 타이틀
+# 내용 : 콘텐트
+# 제목 : 타이틀
+# 내용 : 콘텐트
+# " 줄바꿈 -> <br>
+
+def one_memo(request, memo_id):
+    memo = Memo.objects.get(id=memo_id)
+    content = f"""<h1>제목 : {memo.title}</h1> <br><br> 
+    내용 : {memo.content}<br>
+    {memo.is_important}<br>
+    {memo.created_at}
+    """
+    return HttpResponse(content)
