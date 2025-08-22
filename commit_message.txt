@@ -1,0 +1,8 @@
+feat: Create initial Django project structure
+
+This commit includes the basic file structure for a new Django project, including the `config` and `polls` applications.
+
+- Create `manage.py` for project management
+- Create `config` directory for project-level configuration
+- Create `polls` directory for the polls application
+- Add `.vscode/launch.json` for debugging
