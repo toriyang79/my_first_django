@@ -1,6 +1,24 @@
 # polls/views.py에 간단한 뷰 작성
 from django.http import HttpResponse
 
+# 장고 페이지 구성의 핵심
+from django.shortcuts import render
+from .models import Article, Memo
+
+# index에서 context 만들어서 보내기기
+def index(request):
+    memos = Memo.objects.all()
+    context = {
+        "name":"lion",
+        "title":"장고 학습",
+        "memos":memos
+    }
+    return render(request=request,template_name="polls/index.html",
+     context=context)
+
+# def blog_list(request):
+#     return render(request,"not_good.html")
+
 def lion(request,name):
     return HttpResponse(f"""{name}가 장고를 배웁니다!!""")
 
@@ -50,7 +68,6 @@ def dubug_request(request):
 # 2시 40분까지 ORM 체험해 보겠습니다~!
 
 # 메모리스트를 보여주는 뷰를 만들어 보겠습니다.
-from .models import Article, Memo
 def memo_list(self):
     # 메모 전체 가져오기
     all_memo=Memo.objects.all()

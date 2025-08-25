@@ -1,13 +1,14 @@
 from django.urls import path
 # from . import views
 # 원하는 뷰를 가져오는 형태
-from .views import lion, dubug_request, memo_list, one_memo
+from .views import lion, dubug_request, memo_list, one_memo, index
 # from polls import views
 # from polls.views import lion, dubug_request
 
 urlpatterns = [   
     path('tiger/<str:name>/', lion),
-    path('', dubug_request),
+    path('', index),
+    # path('bad/', blog_list),
     path('memo/', memo_list),
     path('memo/<int:memo_id>/', one_memo)
     # 127.0.0.1/dubug/  => path('dubug/', dubug_request)
