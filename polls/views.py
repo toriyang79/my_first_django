@@ -13,8 +13,7 @@ def index(request):
         "title":"장고 학습",
         "memos":memos
     }
-    return render(request=request,template_name="polls/index.html"
-    ,context=context)
+    return render(request=request,template_name="polls/index.html",context=context)
     
 # def blog_list(request):
 #     return render(request,"not_good.html")
