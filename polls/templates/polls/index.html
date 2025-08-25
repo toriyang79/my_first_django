@@ -1,24 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>My First Django</h1>
-    {{name}}<br>
+{% extends 'polls/base.html' %}
+{% block name %}템플릿이 덮어씁니다.{% endblock %}
+{% block lion %}<h2>Hello World!!</h2>{% endblock %}
 
-    {# memos 정보가 있으면, for 문을 통해서 출력 #}
-    {# 전달 받은 내용 출력하기 #}
-    {% if memos %}  
-        {% for memo in memos %}
-            <h7>{{memo.id}} {{memo.title}}</h7>
-            <p>{{memo.content}}</p>
-            {% endfor %}
-        {% else %}4
-            <h3> 메모내용이 없습니다.</h3>
-        {% endif %}
-
-</body>
-</html>
+{% block content %}
+<p>base.HTML 생성</p>
+<p>기본내용작성성</p>
+{% endblock %}
