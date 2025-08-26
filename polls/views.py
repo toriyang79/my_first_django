@@ -7,13 +7,13 @@ from .models import Article, Memo
 
 # index에서 context 만들어서 보내기기
 def index(request):
-    memos = Memo.objects.all()
-    context = {
-        "name":"lion",
-        "title":"장고 학습",
-        "memos":memos
-    }
-    return render(request=request,template_name="polls/index.html",context=context)
+    # memos = Memo.objects.all()
+    # context = {
+    #     "name":"lion",
+    #     "title":"장고 학습",
+    #     "memos":memos
+    # }
+    return render(request=request,template_name="polls/index.html")
     
 # def blog_list(request):
 #     return render(request,"not_good.html")
