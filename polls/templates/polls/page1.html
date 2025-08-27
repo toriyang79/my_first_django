@@ -1,0 +1,64 @@
+{% extends 'common/base.html' %}
+{% block content %}
+<div class="container my-5">
+    <div class="p-5 text-center bg-body-tertiary rounded-3">
+        <h1 class="text-body-emphasis">토리월드에 오신것을 환영합니다!</h1>
+        <p class="col-lg-8 mx-auto fs-5 text-muted">
+            이곳은 Django와 Bootstrap을 사용하여 만든 웹사이트입니다. 아래에서 사이트의 주요 기능들을 확인해보세요.
+        </p>
+        <div class="d-inline-flex gap-2 mb-5">
+            <a href="{% url 'polls:memo_list' %}" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" role="button">
+                메모 보러가기
+            </a>
+            <a href="{% url 'polls:index' %}" class="btn btn-outline-secondary btn-lg px-4 rounded-pill" role="button">
+                설문조사 바로가기
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12 text-center">
+            <h2>사이트 소개</h2>
+            <p class="lead">이 사이트는 다음과 같은 주요 기능들을 제공합니다.</p>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+        </div>
+        <h3 class="fs-2 text-body-emphasis">설문조사 기능</h3>
+        <p>다양한 주제에 대한 설문조사에 참여하고 결과를 확인하세요. Django의 기본 Polls 앱을 기반으로 만들어졌습니다.</p>
+      </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle"/></svg>
+        </div>
+        <h3 class="fs-2 text-body-emphasis">메모장 기능</h3>
+        <p>생각이나 아이디어를 기록하고 싶으신가요? 간단한 메모를 작성하고, 저장하고, 목록으로 관리할 수 있습니다.</p>
+      </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
+        </div>
+        <h3 class="fs-2 text-body-emphasis">확장 가능한 구조</h3>
+        <p>Bootstrap과 Django를 사용하여 만들어져 유지보수가 쉽고, 앞으로 새로운 기능을 추가하기 좋은 구조를 가지고 있습니다.</p>
+      </div>
+    </div>
+</div>
+
+<!-- SVG 아이콘 정의 (Bootstrap 예제에서 사용) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="collection" viewBox="0 0 16 16">
+    <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
+  </symbol>
+  <symbol id="people-circle" viewBox="0 0 16 16">
+    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+  </symbol>
+  <symbol id="toggles2" viewBox="0 0 16 16">
+    <path d="M5 3a3 3 0 0 0 0 6h6a3 3 0 0 0 0-6H5zm6 1a2 2 0 1 1 0 4 2 2 0 0 1 0-4H5a2 2 0 1 1 0-4h6a2 2 0 0 1 0 4zM1 8a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H2a1 1 0 0 1-1-1z"/>
+  </symbol>
+</svg>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'common/base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Memo List</h1>
+    <div class="row">
+        {% if memos %}
+            {% for memo in memos %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ memo.title }}</h5>
+                            <p class="card-text">{{ memo.content }}</p>
+                            <p class="card-text"><small class="text-muted">Created at: {{ memo.created_at }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col">
+                <p>No memos found.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

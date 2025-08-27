@@ -1,0 +1,44 @@
+{% extends 'common/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 fw-normal">새로운 메모 작성</h4>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">제목</label>
+                            <input type="text" class="form-control" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" value="{{ form.title.value|default_if_none:'' }}" required>
+                            {% if form.title.errors %}
+                                <div class="form-text text-danger">{{ form.title.errors.as_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label">내용</label>
+                            <textarea class="form-control" name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" rows="5" required>{{ form.content.value|default_if_none:'' }}</textarea>
+                            {% if form.content.errors %}
+                                <div class="form-text text-danger">{{ form.content.errors.as_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" name="{{ form.is_important.name }}" id="{{ form.is_important.id_for_label }}" {% if form.is_important.value %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ form.is_important.id_for_label }}">중요</label>
+                        </div>
+                        
+                        <hr class="my-4">
+
+                        <button type="submit" class="btn btn-primary w-100">메모 저장</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

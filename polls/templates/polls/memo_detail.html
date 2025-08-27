@@ -1,0 +1,17 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">{{ memo.title }}</h1>
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">{{ memo.content }}</p>
+            <p class="card-text"><small class="text-muted">Created at: {{ memo.created_at }}</small></p>
+            {% if memo.is_important %}
+                <span class="badge bg-danger">Important</span>
+            {% endif %}
+        </div>
+    </div>
+    <a href="{% url 'polls:memo_list' %}" class="btn btn-primary mt-3">Back to List</a>
+</div>
+{% endblock %}

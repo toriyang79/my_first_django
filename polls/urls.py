@@ -1,17 +1,16 @@
 from django.urls import path
-# from . import views
+from . import views
 # 원하는 뷰를 가져오는 형태
-from .views import lion, dubug_request, memo_list, one_memo, index
+# from .views import index, memo_list, one_memo, memo_create,page1
 # from polls import views
 # from polls.views import lion, dubug_request
 
-urlpatterns = [   
-    path('',index),
-    path('memo/', memo_list),
-    path('memo/<int:memo_id>/', one_memo)
-    # path('tiger/<str:name>/', lion),
-    # path('', index),
-    # path('bad/', blog_list),
-    # 127.0.0.1/dubug/  => path('dubug/', dubug_request)
+app_name = 'polls' 
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('memo/', views.memo_list, name="memo_list"),
+    path('memo/<int:memo_id>/', views.one_memo, name="memo_detail"),
+    path('memo/create/', views.memo_create, name='memo_create'),
+    path('page1/', views.page1, name='page1'),
 ]
-# url이 어떻게 뷰로 연결되는지 원리를 이해.
