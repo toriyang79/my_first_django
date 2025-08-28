@@ -128,3 +128,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/accounts/login/'  # 로그인 페이지 URL
 LOGIN_REDIRECT_URL = '/'  # 로그인 후 이동할 URL
 LOGOUT_REDIRECT_URL = '/'  # 로그아웃 후 이동할 URL
+
+
+dev1=11235
