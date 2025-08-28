@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 """
@@ -33,6 +34,13 @@ class Article(models.Model):
 # 여러분의 DB에 테이블을 생성해 보겠습니다!
 
 class Memo(models.Model):
+    # 작성자 추가 (ForeignKey)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,  # 사용자 삭제 시 메모도 삭제
+        related_name='memos',  # user.memos.all()로 접근 가능
+        verbose_name='작성자'
+    )
     title = models.CharField('제목', max_length=100)
     content = models.TextField('내용')
     is_important = models.BooleanField('중요', default=False)

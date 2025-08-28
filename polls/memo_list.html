@@ -1,0 +1,32 @@
+<!-- polls/memo_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>메모 목록</title>
+</head>
+<body>
+    <h1>메모 목록</h1>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'polls:memo_create' %}">새 메모 작성</a>
+    {% endif %}
+
+    <ul>
+        {% for memo in memos %}
+        <li>
+            <h3>
+                {{ memo.title }}
+                {% if memo.author == user %}
+                    [내 메모]
+                {% endif %}
+            </h3>
+            <p>{{ memo.content|truncatewords:20 }}</p>
+            <small>작성자: {{ memo.author.username }}</small>
+            <a href="{% url 'polls:memo_detail' memo.pk %}">상세보기</a>
+        </li>
+        {% empty %}
+        <li>메모가 없습니다.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

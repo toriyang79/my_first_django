@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "polls"
+    "polls",
+    'accounts',  # 어카운트 추가!
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# 로그인 관련 설정 추가
+LOGIN_URL = '/accounts/login/'  # 로그인 페이지 URL
+LOGIN_REDIRECT_URL = '/'  # 로그인 후 이동할 URL
+LOGOUT_REDIRECT_URL = '/'  # 로그아웃 후 이동할 URL

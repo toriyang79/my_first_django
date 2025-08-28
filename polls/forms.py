@@ -2,7 +2,7 @@ from django import forms
 from .models import Memo
 
 
-class MemoForm(forms.ModelForm):
+class MemoModelForm(forms.ModelForm):
     """Model과 자동 연결되는 Form"""
     class Meta:
         model = Memo  # 연결할 모델

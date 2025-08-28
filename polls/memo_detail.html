@@ -1,0 +1,25 @@
+<!-- polls/memo_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ memo.title }}</title>
+</head>
+<body>
+    <h1>{{ memo.title }}</h1>
+    <p>작성자: {{ memo.author.username }} | 작성일: {{ memo.created_at|date:"Y-m-d H:i" }}</p>
+
+    <div>
+        {{ memo.content|linebreaks }}
+    </div>
+
+    <div>
+        <a href="{% url 'polls:memo_list' %}">목록</a>
+
+        <!-- 작성자만 수정/삭제 버튼 표시 -->
+        {% if user == memo.author %}
+            <a href="{% url 'polls:memo_update' memo.pk %}">수정</a>
+            <a href="{% url 'polls:memo_delete' memo.pk %}">삭제</a>
+        {% endif %}
+    </div>
+</body>
+</html>
