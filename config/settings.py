@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "polls",
     'accounts',  # 어카운트 추가!
+    'photo_gallery', # 포토갤러리추가
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# 로그인 관련 설정 추가
+# 로그인 관련 설정 
 LOGIN_URL = '/accounts/login/'  # 로그인 페이지 URL
 LOGIN_REDIRECT_URL = '/'  # 로그인 후 이동할 URL
 LOGOUT_REDIRECT_URL = '/'  # 로그아웃 후 이동할 URL
+
+# 미디어 파일 설정 
+MEDIA_URL = '/media/'   # 업로드된 미디어 파일을 웹에서 접근할 때 사용할 URL 경로 prefix
+MEDIA_ROOT = BASE_DIR / 'media'   # 실제 서버(로컬)에서 업로드된 미디어 파일이 저장될 물리적 디렉토리 경로

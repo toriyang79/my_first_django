@@ -1,16 +1,16 @@
 from django.contrib import admin
-from .models import Article, Memo
+from .models import Memo
 
 # Register your models here.
-# @admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content_short','created_at')
-
-    def content_short(self, article):
-        return article.content[:10]
-    content_short.short_description = '간략한 내용'
-
-admin.site.register(Article, ArticleAdmin)
+# # @admin.register(Article)
+# class ArticleAdmin(admin.ModelAdmin):
+#     list_display = ('title', 'content_short','created_at')
+#
+#     def content_short(self, article):
+#         return article.content[:10]
+#     content_short.short_description = '간략한 내용'
+#
+# admin.site.register(Article, ArticleAdmin)
 
 # admin.py에서 우리가 만든 모델을 등록하는 것을 해보겠습니다!
 # 샘플도 확인하시고 다른 툴(제미나이, gpt)을 이용해서 구조를 만들어서 적용도 해보겠습니다

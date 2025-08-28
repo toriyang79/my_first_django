@@ -1,0 +1,43 @@
+<!-- templates/photo_gallery/photo_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- 현재 사진 표시 (수정 시) -->
+        {% if photo %}
+        <div>
+            <label>현재 사진:</label>
+            <img src="{{ photo.thumbnail.url|default:photo.photo.url }}" alt="현재 사진" width="200">
+        </div>
+        {% endif %}
+
+        <!-- 폼 필드들 -->
+        {% for field in form %}
+        <div>
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div>{{ field.errors }}</div>
+            {% endif %}
+            {% if field.help_text %}
+                <small>{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div>
+            <button type="submit">
+                {% if photo %}수정하기{% else %}업로드{% endif %}
+            </button>
+            <a href="{% url 'photo_gallery:photo_list' %}">취소</a>
+        </div>
+    </form>
+</body>
+</html>

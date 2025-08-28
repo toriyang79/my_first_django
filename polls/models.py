@@ -14,18 +14,18 @@ CREATE TABLE customers (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 """
-class Article(models.Model):
-    title = models.CharField('이게요렇게나옵니다',max_length=200)
-    content = models.TextField("content")
-    created_at = models.DateTimeField('작성일', auto_now_add=True)
-    updated_at = models.DateTimeField('수정일', auto_now=True)
-
-    def __str__(self):
-        return "__str__통해서이렇게나옵니다"+ self.title
-
-    class Meta:
-        verbose_name = "아티클"
-        verbose_name_plural = "아티클들"
+# class Article(models.Model):
+#     title = models.CharField('이게요렇게나옵니다',max_length=200)
+#     content = models.TextField("content")
+#     created_at = models.DateTimeField('작성일', auto_now_add=True)
+#     updated_at = models.DateTimeField('수정일', auto_now=True)
+#
+#     def __str__(self):
+#         return "__str__통해서이렇게나옵니다"+ self.title
+#
+#     class Meta:
+#         verbose_name = "아티클"
+#         verbose_name_plural = "아티클들"
 
 # models.py에 Table을 파이썬 코드로 작성합니다!
 # 설계도 작성 : python manage.py makemigrations

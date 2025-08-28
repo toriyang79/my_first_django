@@ -1,0 +1,86 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container my-5 d-flex justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8" style="max-width: 680px;">
+        <div class="card">
+            <!-- Card Header: Author Info & Edit Button -->
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-user-circle fa-2x text-secondary me-3"></i>
+                    <span class="fw-bold">{{ photo.author.username }}</span>
+                </div>
+                {% if user == photo.author %}
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="{% url 'photo_gallery:photo_update' photo.pk %}">수정</a></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'photo_gallery:photo_delete' photo.pk %}">삭제</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Card Image -->
+            <div class="photo-detail-img-container bg-light d-flex justify-content-center align-items-center border-bottom">
+                <img src="{{ photo.photo.url }}" class="img-fluid" alt="{{ photo.title }}">
+            </div>
+
+            <div class="card-body">
+                <!-- Action Icons -->
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'photo_gallery:photo_like' photo.pk %}" class="mb-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn p-0 border-0">
+                                {% if user_liked %}
+                                    <i class="fas fa-heart fa-2x text-danger"></i>
+                                {% else %}
+                                    <i class="far fa-heart fa-2x text-dark"></i>
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% else %}
+                         <i class="far fa-heart fa-2x text-dark"></i>
+                    {% endif %}
+                    <!-- Placeholder icons -->
+                    <i class="far fa-comment fa-2x text-dark"></i>
+                    <i class="far fa-paper-plane fa-2x text-dark"></i>
+                </div>
+
+                <!-- Like Count -->
+                <p class="card-text fw-bold mb-2">{{ like_count }}명이 좋아합니다</p>
+
+                <!-- Caption -->
+                <p class="card-text">
+                    <span class="fw-bold">{{ photo.author.username }}</span>
+                    {{ photo.title }}
+                </p>
+                {% if photo.description %}
+                    <p class="card-text small text-muted">{{ photo.description|linebreaksbr }}</p>
+                {% endif %}
+
+                <!-- Date -->
+                <p class="card-text text-muted small">{{ photo.photo_date|date:"Y년 m월 d일" }}</p>
+            </div>
+        </div>
+        
+        <!-- Prev/Next Navigation -->
+        <div class="d-flex justify-content-between mt-4">
+            {% if prev_photo %}
+                <a href="{% url 'photo_gallery:photo_detail' prev_photo.pk %}" class="btn btn-outline-secondary">&laquo; 이전 사진</a>
+            {% else %}
+                <a href="#" class="btn btn-outline-secondary disabled">&laquo; 이전 사진</a>
+            {% endif %}
+    
+            {% if next_photo %}
+                <a href="{% url 'photo_gallery:photo_detail' next_photo.pk %}" class="btn btn-outline-secondary">다음 사진 &raquo;</a>
+            {% else %}
+                <a href="#" class="btn btn-outline-secondary disabled">다음 사진 &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

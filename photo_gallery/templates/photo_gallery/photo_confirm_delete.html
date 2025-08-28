@@ -1,0 +1,24 @@
+<!-- templates/photo_gallery/photo_confirm_delete.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>사진 삭제 확인</title>
+</head>
+<body>
+    <h2>정말로 이 사진을 삭제하시겠습니까?</h2>
+
+    <div>
+        <img src="{{ photo.thumbnail.url|default:photo.photo.url }}" alt="{{ photo.title }}" width="200">
+        <h3>{{ photo.title }}</h3>
+        <p>{{ photo.photo_date|date:"Y년 m월 d일" }}</p>
+    </div>
+
+    <p>⚠️ 삭제된 사진은 복구할 수 없습니다.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">삭제</button>
+        <a href="{% url 'photo_gallery:photo_detail' photo.pk %}">취소</a>
+    </form>
+</body>
+</html>
