@@ -1,0 +1,93 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">{{ title|default:"Daily Snap 갤러리" }}</h1>
+        <p class="lead text-muted">매일의 순간을 사진으로 기록하고 공유하세요.</p>
+    </div>
+
+    <!-- 카테고리 필터 -->
+    <div class="d-flex justify-content-center flex-wrap gap-2 mb-5">
+        <a href="{% url 'photo_gallery:photo_list' %}" class="btn {% if not current_category %}btn-primary{% else %}btn-outline-primary{% endif %}">전체</a>
+        {% for value, label in categories %}
+            <a href="?category={{ value }}" class="btn {% if current_category == value %}btn-primary{% else %}btn-outline-primary{% endif %}">{{ label }}</a>
+        {% endfor %}
+    </div>
+
+    <!-- 사진 목록 -->
+    {% if page_obj %}
+        <div class="photo-gallery">
+            {% for photo in page_obj %}
+                <div class="photo-item">
+                    <a href="{% url 'photo_gallery:photo_detail' photo.pk %}">
+                        <img src="{{ photo.photo.url }}" alt="{{ photo.title }}">
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-heart"></i>
+                                <span>{{ photo.like_count }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <p class="lead">아직 사진이 없습니다.</p>
+            <a href="{% url 'photo_gallery:photo_create' %}" class="btn btn-primary">첫 사진을 업로드해보세요!</a>
+        </div>
+    {% endif %}
+
+    <!-- 페이지네이션 -->
+    {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if current_category %}&category={{ current_category }}{% endif %}">&laquo; 처음</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}">이전</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo; 처음</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">{{ num }}</a>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if current_category %}&category={{ current_category }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}">다음</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if current_category %}&category={{ current_category }}{% endif %}">마지막 &raquo;</a>
+                    </li>
+                {% else %}
+                     <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">다음</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">마지막 &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}

@@ -11,49 +11,24 @@ def index(request):
 
 
 
-def lion(request, name):
-    return HttpResponse(f"{name}가 장고를 배웁니다!!")
-
-def dubug_request(request):
-    content = f"""이것이 request가 가지고 있는 정보의 예시입니다.<br>
-    request.path = {request.path}    <br>
-    request.method = {request.method}    <br>
-    request.META.REMOTE_ADDR = {request.META.get('REMOTE_ADDR', 'Unknown')}    <br>
+def memo_list(request):
     """
-    return HttpResponse(content)
+    메모 목록 보기.
+    로그인 시 자신의 메모만, 비로그인 시 모든 메모를 보여줍니다.
+    """
+    if request.user.is_authenticated:
+        # 사용자가 로그인한 경우
+        memos = Memo.objects.filter(author=request.user)
+        title = f"{request.user.username}님의 메모"
+    else:
+        # 사용자가 로그인하지 않은 경우
+        memos = Memo.objects.all()
+        title = "모든 메모"
 
-def memo_list(request):
-    """모든 메모 목록 - 누구나 볼 수 있음"""
-    memos = Memo.objects.all()
-    return render(request, 'polls/memo_list.html', {'memos': memos})
-
-@login_required
-def memo_list(request):
-    """내 메모만 보기"""
-    memos = Memo.objects.filter(author=request.user)
     return render(request, 'polls/memo_list.html', {
         'memos': memos,
-        'title': '내 메모'
+        'title': title
     })
-
-# def memo_list(request):
-#     """
-#     메모 목록 보기.
-#     로그인 시 자신의 메모만, 비로그인 시 모든 메모를 보여줍니다.
-#     """
-#     if request.user.is_authenticated:
-#         # 사용자가 로그인한 경우
-#         memos = Memo.objects.filter(author=request.user)
-#         title = f"{request.user.username}님의 메모"
-#     else:
-#         # 사용자가 로그인하지 않은 경우
-#         memos = Memo.objects.all()
-#         title = "모든 메모"
-
-#     return render(request, 'polls/memo_list.html', {
-#         'memos': memos,
-#         'title': title
-#     })
 
 
 @login_required  # 로그인해야 작성 가능
@@ -141,5 +116,3 @@ def memo_detail(request, pk):
     memo = get_object_or_404(Memo, pk=pk)
     return render(request, 'polls/memo_detail.html', {'memo': memo})
 
-def page1(request):
-    return render(request, 'polls/page1.html')
