@@ -1,4 +1,4 @@
-# My First Django Project 수정
+# My First Django Project 
 
 이 프로젝트는 Django 프레임워크 학습을 위해 만들어진 첫 번째 프로젝트입니다.
 
