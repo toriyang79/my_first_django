@@ -118,6 +118,8 @@ def memo_update(request, pk):
     })
 
 
+
+
 @login_required
 def memo_delete(request, pk):
     """메모 삭제 - 작성자만 가능"""

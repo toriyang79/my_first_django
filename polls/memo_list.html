@@ -23,6 +23,16 @@
             <p>{{ memo.content|truncatewords:20 }}</p>
             <small>작성자: {{ memo.author.username }}</small>
             <a href="{% url 'polls:memo_detail' memo.pk %}">상세보기</a>
+            <!-- ✅ 내가 작성한 메모일 때만 수정/삭제 버튼 표시 -->
+        {% if memo.author == user %}
+        <a href="{% url 'polls:memo_update' memo.pk %}">수정</a>
+        <form action="{% url 'polls:memo_delete' memo.pk %}" 
+              method="post" 
+              style="display:inline">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('정말 삭제할까요?')">삭제</button>
+        </form>
+        {% endif %}
         </li>
         {% empty %}
         <li>메모가 없습니다.</li>
