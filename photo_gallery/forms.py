@@ -19,7 +19,7 @@ class PhotoForm(forms.ModelForm):
 
         if photo:
             # 파일 크기 체크 (5MB)
-            if photo.size > 5 * 1024 * 1024:
+            if photo.size > 10 * 1024 * 1024:
                 raise forms.ValidationError('파일 크기는 5MB를 초과할 수 없습니다.')
 
             # 이미지 파일인지 확인

@@ -1,9 +1,11 @@
 # photo_gallery/views.py
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.contrib import messages
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Exists, OuterRef
 from .models import DailyPhoto
 from .forms import PhotoForm
 
@@ -28,7 +30,12 @@ def photo_list(request):
     # 좋아요 수 추가
     photos = photos.annotate(like_count=Count('likes'))
 
-    # 페이지네이션 / 한페이지에 표시되는 게시물 숫자
+    # 현재 사용자가 각 사진을 좋아하는지 여부 추가
+    if request.user.is_authenticated:
+        liked_subquery = request.user.liked_photos.filter(pk=OuterRef('pk'))
+        photos = photos.annotate(user_has_liked=Exists(liked_subquery))
+
+    # 페이지네이션
     paginator = Paginator(photos, 12)  # 12개씩 표시
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -52,13 +59,13 @@ def photo_detail(request, pk):
 
     # 이전/다음 사진
     prev_photo = DailyPhoto.objects.filter(
-        Q(is_public=True) | Q(author=request.user),
-        pk__lt=photo.pk,
-    ).order_by('-pk').first()
+            Q(is_public=True) | Q(author=request.user),
+            pk__lt=photo.pk
+        ).order_by('-pk').first()
 
     next_photo = DailyPhoto.objects.filter(
         Q(is_public=True) | Q(author=request.user),
-        pk__gt=photo.pk,
+        pk__gt=photo.pk
     ).order_by('pk').first()
 
     # 현재 사용자가 좋아요 했는지 확인
@@ -141,22 +148,25 @@ def photo_delete(request, pk):
 
 
 @login_required
-def photo_like(request, pk):
-    """좋아요 처리 (1단계: 폼 방식)"""
-    photo = get_object_or_404(DailyPhoto, pk=pk)
+@require_POST
+def like_photo(request, photo_id):
+    """AJAX 요청을 위한 좋아요 처리 뷰"""
+    photo = get_object_or_404(DailyPhoto, id=photo_id)
+    user = request.user
 
-    if request.method == 'POST':
-        if request.user in photo.likes.all():
-            # 이미 좋아요 했으면 취소
-            photo.likes.remove(request.user)
-            messages.info(request, '좋아요를 취소했습니다.')
-        else:
-            # 좋아요 추가
-            photo.likes.add(request.user)
-            messages.success(request, '좋아요를 눌렀습니다.')
+    if user in photo.likes.all():
+        # 이미 좋아요를 눌렀다면, 좋아요 취소
+        photo.likes.remove(user)
+        liked = False
+    else:
+        # 좋아요를 누르지 않았다면, 좋아요 추가
+        photo.likes.add(user)
+        liked = True
 
-    # 원래 페이지로 돌아가기
-    return redirect('photo_gallery:photo_detail', pk=pk)
+    return JsonResponse({
+        'liked': liked,
+        'likes_count': photo.likes.count()
+    })
 
 
 @login_required
