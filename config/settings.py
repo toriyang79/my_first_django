@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ib#-3s=-*j&r2scf0)xsat9fat3@(k)e)l9phvd##6jim)*5*c'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == "True"
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "polls",
     'accounts',  # 어카운트 추가!
+    'photo_gallery', # 포토갤러리추가
 ]
 
 MIDDLEWARE = [
@@ -75,9 +80,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #운영환경
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': os.getenv('HOST'),
+        'PORT': os.getenv('PORT'),
     }
 }
 
@@ -124,9 +138,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# 로그인 관련 설정 추가
+# 로그인 관련 설정 
 LOGIN_URL = '/accounts/login/'  # 로그인 페이지 URL
 LOGIN_REDIRECT_URL = '/'  # 로그인 후 이동할 URL
 LOGOUT_REDIRECT_URL = '/'  # 로그아웃 후 이동할 URL
 
 
+# 미디어 파일 설정 
+MEDIA_URL = '/media/'   # 업로드된 미디어 파일을 웹에서 접근할 때 사용할 URL 경로 prefix
+MEDIA_ROOT = BASE_DIR / 'media'   # 실제 서버(로컬)에서 업로드된 미디어 파일이 저장될 물리적 디렉토리 경로

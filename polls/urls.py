@@ -12,7 +12,6 @@ urlpatterns = [
     path('memo/', views.memo_list, name="memo_list"),
     path('memo/<int:pk>/', views.memo_detail, name="memo_detail"),
     path('memo/create/', views.memo_create, name='memo_create'),
-    path('page1/', views.page1, name='page1'),
     path('accounts/', include('accounts.urls')),  #로그인
     path('memo/<int:pk>/delete/', views.memo_delete, name='memo_delete'),
 ]
